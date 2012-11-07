@@ -112,6 +112,10 @@
           $tip.addClass('fade');
         }
 
+        $tip
+          .remove()
+          .css({ top: 0, left: 0, display: 'block' });
+
         placement = typeof this.options.placement == 'function' ?
           this.options.placement.call(this, $tip[0], this.$element[0]) :
           this.options.placement;
@@ -124,10 +128,7 @@
           inside = /in/.test(placement);
         }
 
-        $tip
-          .remove()
-          .css({ top: 0, left: 0, display: 'block' })
-          .appendTo(inside ? this.$element : document.body);
+        $tip.appendTo(inside ? this.$element : document.body);
 
         pos = this.getPosition(inside);
 
@@ -150,11 +151,15 @@
               break;
           }
         }
+        this.setPosition(tp);
 
         $tip
-          .css(tp)
           .addClass(placement)
           .addClass('in');
+      }
+
+      if(typeof this.options.afterShow === 'function'){
+        this.options.afterShow.call(this, $tip[0], this.$element[0]);
       }
     }
 
@@ -206,6 +211,10 @@
         width: this.$element[0].offsetWidth
       , height: this.$element[0].offsetHeight
       })
+    }
+
+  , setPosition: function(pos) {
+      return this.tip().css(pos);
     }
 
   , getTitle: function () {
