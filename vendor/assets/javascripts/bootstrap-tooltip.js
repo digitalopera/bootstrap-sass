@@ -190,11 +190,12 @@
       var inside = (typeof placement === 'object') ? false : /in/.test(placement);
 
       var pos = this.getPosition(inside);
+      var $tip = this.tip();
 
       if(typeof placement === 'string'){
-        var actualWidth = $tip[0].offsetWidth;
-        var actualHeight = $tip[0].offsetHeight;
-        
+        var actualWidth = $tip.offsetWidth;
+        var actualHeight = $tip.offsetHeight;
+
         switch (inside ? placement.split(' ')[1] : placement) {
           case 'bottom':
             tp = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2};
@@ -214,7 +215,7 @@
         tp = placement;
       }
 
-      return this.tip().css(tp);
+      return $tip.css(tp);
     }
 
   , getTitle: function () {
