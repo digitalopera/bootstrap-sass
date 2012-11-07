@@ -120,38 +120,11 @@
           this.options.placement.call(this, $tip[0], this.$element[0]) :
           this.options.placement;
 
-        if (typeof placement === 'object'){
-          tp = placement;
-          inside = false;
-        }
-        else {
-          inside = /in/.test(placement);
-        }
+        inside = (typeof placement === 'object') ? false : /in/.test(placement);
 
         $tip.appendTo(inside ? this.$element : document.body);
 
-        pos = this.getPosition(inside);
-
-        actualWidth = $tip[0].offsetWidth;
-        actualHeight = $tip[0].offsetHeight;
-
-        if(typeof placement === 'string'){
-          switch (inside ? placement.split(' ')[1] : placement) {
-            case 'bottom':
-              tp = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2};
-              break;
-            case 'top':
-              tp = {top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2};
-              break;
-            case 'left':
-              tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth};
-              break;
-            case 'right':
-              tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width};
-              break;
-          }
-        }
-        this.setPosition(tp);
+        this.setPosition(placement);
 
         $tip
           .addClass(placement)
@@ -213,8 +186,35 @@
       })
     }
 
-  , setPosition: function(pos) {
-      return this.tip().css(pos);
+  , setPosition: function(placement) {
+      var inside = (typeof placement === 'object') ? false : /in/.test(placement);
+
+      var pos = this.getPosition(inside);
+
+      if(typeof placement === 'string'){
+        var actualWidth = $tip[0].offsetWidth;
+        var actualHeight = $tip[0].offsetHeight;
+        
+        switch (inside ? placement.split(' ')[1] : placement) {
+          case 'bottom':
+            tp = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2};
+            break;
+          case 'top':
+            tp = {top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2};
+            break;
+          case 'left':
+            tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth};
+            break;
+          case 'right':
+            tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width};
+            break;
+        }
+      }
+      else if (typeof placement === 'object'){
+        tp = placement;
+      }
+
+      return this.tip().css(tp);
     }
 
   , getTitle: function () {
