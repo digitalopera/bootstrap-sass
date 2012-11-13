@@ -187,6 +187,7 @@
     }
 
   , setPosition: function(placement) {
+      var tp;
       var inside = (typeof placement === 'object') ? false : /in/.test(placement);
 
       var pos = this.getPosition(inside);
