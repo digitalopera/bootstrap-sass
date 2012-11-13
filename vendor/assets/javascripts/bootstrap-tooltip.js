@@ -193,8 +193,8 @@
       var $tip = this.tip();
 
       if(typeof placement === 'string'){
-        var actualWidth = $tip.offsetWidth;
-        var actualHeight = $tip.offsetHeight;
+        var actualWidth = $tip.width();
+        var actualHeight = $tip.height();
 
         switch (inside ? placement.split(' ')[1] : placement) {
           case 'bottom':
